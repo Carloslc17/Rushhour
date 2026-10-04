@@ -57,26 +57,26 @@ def build_parser() -> argparse.ArgumentParser:
 # --- Handlers: solo traducen args -> servicio -> salida ---------------------
 
 def cmd_verify(args: argparse.Namespace) -> int:
-    from rushhour.services import verify
+    from rushhour.service import verify
     print(verify.run(args.level))
     return 0
 
 
 def cmd_successors(args: argparse.Namespace) -> int:
-    from rushhour.services import successors
+    from rushhour.service import successors
     for level in successors.run(args.level):
         print(level)
     return 0
 
 
 def cmd_question(args: argparse.Namespace) -> int:
-    from rushhour.services import question
+    from rushhour.service import question
     print(question.run(args.level, args.query, args.x))
     return 0
 
 
 def cmd_solver(args: argparse.Namespace) -> int:
-    from rushhour.services import solver
+    from rushhour.service import solver
     result = solver.run(
         args.level,
         Strategy(args.strategy),

@@ -1,8 +1,16 @@
-from vehicle import Vehicle
+from rushhour.model.vehicle import Vehicle
 
 class Board:
     def __init__(self, vehiculos):
         self.vehiculos = vehiculos   # Lista de vehiculos
+
+    def get_vehiculos(self) -> list:
+        return self.vehiculos
+
+    def buscar_vehiculo(self, letra) -> Vehicle:
+        for v in self.vehiculos:
+            if letra == v.get_id():
+                return v
 
     def posicion_valida(self, vehiculo):
         ocupadas = set()

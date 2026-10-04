@@ -1,5 +1,5 @@
-from model.vehicle import Vehicle
-from model.board import Board
+from rushhour.model.vehicle import Vehicle
+from rushhour.model.board import Board
 
 SIZE = 6
 
@@ -8,7 +8,7 @@ def string_to_board(cadenaNivel) -> list[list[int]]:
     Tablero = [[0 for _ in range(SIZE)] for _ in range(SIZE)]
 
     for i in range(SIZE * SIZE):
-        Board[i // SIZE][i % SIZE] = cadenaNivel[i]
+        Tablero[i // SIZE][i % SIZE] = cadenaNivel[i]
 
     return Tablero
 
@@ -53,7 +53,7 @@ def crear_vehiculos(tablero) -> Board:
                     longitud += 1
                     k += 1
 
-            Vehiculos.append(Vehicle(letra, i, j, orientacion, longitud ))
+            Vehiculos.append(Vehicle(letra, i, j, longitud, orientacion))
 
     return Vehiculos
         
