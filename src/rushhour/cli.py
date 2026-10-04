@@ -16,6 +16,16 @@ class Strategy(str, Enum):
     GBF = "GBF"
     ASTAR = "AStar"
 
+def _position(text: str) -> tuple[int, int]:
+    """Convierte 'fila,columna' en (fila, columna)."""
+    try:
+        row, col = (int(n) for n in text.split(","))
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            f"posición inválida '{text}', se esperaba FILA,COLUMNA (ej. 2,3)"
+        )
+    return row, col
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -29,20 +39,28 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("-s", "--level", required=True, metavar="CADENA",
                        help="cadena que describe el nivel")
 
+    # verify
     p = sub.add_parser("verify", help="comprueba que el nivel es válido")
     add_level(p)
     p.set_defaults(handler=cmd_verify)
 
+    # successors
     p = sub.add_parser("successors", help="lista los estados sucesores")
     add_level(p)
     p.set_defaults(handler=cmd_successors)
 
+    # question
     p = sub.add_parser("question", help="consultas sobre el nivel")
     add_level(p)
-    p.add_argument("query", help="tipo de pregunta")
-    p.add_argument("x", nargs="?", help="parámetro opcional de la pregunta")
+    group = p.add_mutually_exclusive_group(required=True)
+    group.add_argument("--whereis", metavar="ID", help="posiciones que ocupa un vehículo")
+    group.add_argument("--what", metavar="FILA,COL", type=_position, help="qué hay en una casilla")
+    group.add_argument("--size", metavar="ID", help="longitud de un vehículo")
+    group.add_argument("--howmany", action="store_true", help="número de vehículos del nivel")
+    group.add_argument("--goal", action="store_true", help="posicion objetivo")
     p.set_defaults(handler=cmd_question)
 
+    # solver
     p = sub.add_parser("solver", help="resuelve el nivel")
     add_level(p)
     p.add_argument("--strategy", required=True, choices=[s.value for s in Strategy])
@@ -68,10 +86,16 @@ def cmd_successors(args: argparse.Namespace) -> int:
         print(level)
     return 0
 
-
 def cmd_question(args: argparse.Namespace) -> int:
     from rushhour.service import question
-    print(question.run(args.level, args.query, args.x))
+
+    for nombre in ("whereis", "what", "size", "howmany", "goal"):
+        valor = getattr(args, nombre)
+        if valor is not None and valor is not False:
+            quest, arg = f"--{nombre}", valor
+            break
+
+    print(question.run(args.level, quest, arg))
     return 0
 
 

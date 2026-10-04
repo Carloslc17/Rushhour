@@ -22,9 +22,9 @@ class Vehicle:
     def get_orientacion(self):
         return self.__orientacion
 
-    def posiciones(self):
+    def posiciones(self) -> list:
 
-        posiciones = ()
+        posiciones = []
 
         if self.__orientacion == 'H':
 

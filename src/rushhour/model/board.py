@@ -12,7 +12,7 @@ class Board:
             if letra == v.get_id():
                 return v
 
-    def posicion_valida(self, vehiculo):
+    def posicion_valida(self, vehiculo) -> bool:
         ocupadas = set()
         for c in self.vehiculos:
             if c is not vehiculo:
@@ -27,7 +27,7 @@ class Board:
         return True
 
 
-    def mover(self, letra, distancia):
+    def mover(self, letra, distancia) -> bool:
 
         for v in self.vehiculos:
             if v.id == letra:
