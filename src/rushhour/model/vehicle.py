@@ -44,7 +44,7 @@ class Vehicle:
         if self.__orientacion == 'H':
             self.__columna += distancia
         elif self.__orientacion == 'V':
-            self.__fila += distancia
+            self.__fila -= distancia     # Mover hacia arriba
 
     def __str__(self):
         return f"Vehiculo: {self.__id}, posicion inicial: {self.__fila,self.__columna}, longitud: {self.__longitud}, orientacion: {self.__orientacion}"
