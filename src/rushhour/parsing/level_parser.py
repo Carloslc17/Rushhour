@@ -12,6 +12,17 @@ def string_to_board(cadenaNivel) -> list[list[int]]:
 
     return Tablero
 
+def board_to_string(tablero):
+
+    cadenaNivel = ""
+    for i in range(SIZE):
+        for j in range(SIZE):
+            cadenaNivel += tablero[i][j]
+
+    return cadenaNivel
+    
+
+
 def crear_vehiculos(tablero) -> Board:
     Vehiculos = []
 
