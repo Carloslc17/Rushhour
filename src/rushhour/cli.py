@@ -58,6 +58,7 @@ def build_parser() -> argparse.ArgumentParser:
     group.add_argument("--size", metavar="ID", help="longitud de un vehículo")
     group.add_argument("--howmany", action="store_true", help="número de vehículos del nivel")
     group.add_argument("--goal", action="store_true", help="posicion objetivo")
+    group.add_argument("--move", metavar="ID+/-N", help="mueve un vehículo N casillas (ej. --move A +2)")
     p.set_defaults(handler=cmd_question)
 
     # solver
@@ -89,7 +90,7 @@ def cmd_successors(args: argparse.Namespace) -> int:
 def cmd_question(args: argparse.Namespace) -> int:
     from rushhour.service import question
 
-    for nombre in ("whereis", "what", "size", "howmany", "goal"):
+    for nombre in ("whereis", "what", "size", "howmany", "goal", "move"):
         valor = getattr(args, nombre)
         if valor is not None and valor is not False:
             quest, arg = f"--{nombre}", valor

@@ -36,6 +36,12 @@ def run(cadenaNivel, quest, arg):
             else:
                 return False
 
+        case "--move":
+            for mov in arg.split(","):
+                distancia = int(mov[1] + mov[2])
+                tablero.mover(mov[0], distancia)  
+            return level_parser.board_to_string(tablero.grid())
+
         case _:
             raise InvalidLevelError("Pregunta no valida")
 
