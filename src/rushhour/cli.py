@@ -105,10 +105,11 @@ def cmd_solver(args: argparse.Namespace) -> int:
     result = solver.run(
         args.level,
         Strategy(args.strategy),
-        max_depth=args.depth,
+        maxDepth=args.depth,
         heuristic=args.heuristic,
     )
-    print(result.solution_text())
+    for element in result:
+        print(element.__str__())
     if args.stats:
         print(result.stats)
     return 0
