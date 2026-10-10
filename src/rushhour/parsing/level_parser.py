@@ -23,7 +23,7 @@ def board_to_string(tablero):
     
 
 
-def crear_vehiculos(tablero) -> Board:
+def crear_vehiculos(tablero) -> list:
     Vehiculos = []
 
     for i in range(0, SIZE, 1):
