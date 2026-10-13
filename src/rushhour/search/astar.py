@@ -6,14 +6,18 @@ from rushhour.search.node import Node
 from rushhour.service import question
 from rushhour.service import successors
 from rushhour.search import heuristics
+from rushhour.stats import Stats
 
-def run(inicio : Node, h : int):
+def run(inicio : Node, h : int, stats : Stats):
 
     pq = []
     counter = itertools.count()
     aux = None
     visitados = set()
     nodeCount = 0
+
+    # Activar estadisticas
+    stats.generated(0)
 
     inicio.set_heuristic(heuristics.calcular(inicio.get_state(), h))
     inicio.set_value(inicio.get_heuristic() + inicio.get_cost())
@@ -26,8 +30,10 @@ def run(inicio : Node, h : int):
             break
 
         if aux.get_state() in visitados:
+            stats.cut()
             continue
 
+        stats.expanded()
         visitados.add(aux.get_state())
         sucessors = successors.run(aux.get_state())
 
@@ -37,5 +43,6 @@ def run(inicio : Node, h : int):
             nuevo = Node(nodeCount, aux, element[0], element[1], aux.get_cost() + element[2], aux.get_depth() + 1, heuristics.calcular(element[1],h))
             nuevo.set_value(nuevo.get_heuristic() + nuevo.get_cost())
             heapq.heappush(pq, (nuevo.get_value(), next(counter), nuevo))
+            stats.generated(nuevo.get_depth())
 
     return aux

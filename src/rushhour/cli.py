@@ -108,10 +108,10 @@ def cmd_solver(args: argparse.Namespace) -> int:
         maxDepth=args.depth,
         heuristic=args.heuristic,
     )
-    for element in result:
+    for element in result[0]:
         print(element.__str__())
     if args.stats:
-        print(result.stats)
+        print(result[1].__str__())
     return 0
 
 

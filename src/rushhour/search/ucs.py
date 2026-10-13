@@ -5,14 +5,18 @@ import itertools
 from rushhour.search.node import Node
 from rushhour.service import question
 from rushhour.service import successors
+from rushhour.stats import Stats
 
-def run(inicio : Node):
+def run(inicio : Node, stats: Stats):
 
     pq = []
     counter = itertools.count()
     aux = None
     visitados = set()
     nodeCount = 0
+
+    # Activar estadisticas
+    stats.generated(0)
 
     inicio.set_value(0)
     heapq.heappush(pq, (inicio.get_value(),next(counter), inicio))
@@ -24,8 +28,10 @@ def run(inicio : Node):
             break
 
         if aux.get_state() in visitados:
+            stats.cut()
             continue
 
+        stats.expanded()
         visitados.add(aux.get_state())
         sucessors = successors.run(aux.get_state())
 
@@ -35,5 +41,6 @@ def run(inicio : Node):
             nuevo = Node(nodeCount, aux, element[0], element[1], aux.get_cost() + element[2], aux.get_depth() + 1, 0)
             nuevo.set_value(nuevo.get_cost())
             heapq.heappush(pq, (nuevo.get_value(), next(counter), nuevo))
+            stats.generated(nuevo.get_depth())
 
     return aux
