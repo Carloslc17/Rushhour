@@ -9,7 +9,7 @@ COPY requirements.txt .
 # Instalar dependencias
 RUN pip install --no-cache-dir -r requirements.txt
 # Copiar todo el codigo
-COPY . .
+COPY src/ /app/
 # Comando por defecto
-ENTRYPOINT ["python", "-m", "rushhour.main"]
+ENTRYPOINT ["python", "-m", "rushhour"]
 
