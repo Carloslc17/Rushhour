@@ -1,0 +1,4 @@
+# Rush Hour Python
+pytest>=8.0      # tests
+ruff>=0.5        # linter y formateo
+mypy>=1.10       # comprobacion de tipos
